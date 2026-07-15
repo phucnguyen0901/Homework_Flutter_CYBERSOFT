@@ -22,8 +22,12 @@ void main() {
   print('Số luợng: $buyAmount');
   print('Đơn giá: $price');
   print('--- Thành tiền: ${totalBeforeDiscount.toStringAsFixed(0)} VND');
-  print('--- Giảm giá: ${discount * 100}%');
-  print('--- Thuế VAT: ${taxVAT * 100}%');
+  print(
+    '--- Giảm giá ${discount * 100}% : ${(totalBeforeDiscount * discount).toStringAsFixed(0)} VND',
+  );
+  print(
+    '--- Thuế VAT 8% : ${(totalAfterDiscount * taxVAT).toStringAsFixed(0)} VND',
+  );
   print('--- Tổng thanh toán: ${totalAfterVAT.toStringAsFixed(0)} VND');
 }
 

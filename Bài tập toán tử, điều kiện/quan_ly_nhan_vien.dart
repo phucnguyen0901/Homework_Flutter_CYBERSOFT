@@ -20,7 +20,9 @@ void main() {
 
   print("Tên nhân viên: $name");
   print('Tổng luơng trước thuế: ${salaryBeforeTax.toStringAsFixed(0)} VND');
-  print('Thuế thu nhập: ${(tax * 100).toStringAsFixed(0)}%');
+  print(
+    'Trừ thuế thu nhập ${tax * 100}% : ${(salaryBeforeTax * tax).toStringAsFixed(0)} VND',
+  );
   print('Luơng thực lãnh: ${salaryAfterTax.toStringAsFixed(0)} VND');
 }
 
