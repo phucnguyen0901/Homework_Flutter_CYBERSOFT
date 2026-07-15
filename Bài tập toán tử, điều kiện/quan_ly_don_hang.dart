@@ -1,11 +1,11 @@
 import 'dart:io';
 
 void main() {
-  stdout.write('Ten san pham: ');
+  stdout.write('Tên hàng: ');
   String productName = stdin.readLineSync()!;
-  stdout.write('So luong mua: ');
+  stdout.write('Số lượng mua: ');
   double buyAmount = double.parse(stdin.readLineSync()!);
-  stdout.write('Don gia: ');
+  stdout.write('Đơn giá: ');
   int price = int.parse(stdin.readLineSync()!);
 
   double totalBeforeDiscount = buyAmount * price;
@@ -18,13 +18,13 @@ void main() {
   double totalAfterVAT = totalAfterDiscount + (totalAfterDiscount * taxVAT);
 
   print('-' * 10);
-  print('Ten san pham: $productName');
-  print('So luong: $buyAmount');
-  print('Don gia: $price');
-  print('--- Thanh tien: ${totalBeforeDiscount.toStringAsFixed(0)} VND');
-  print('--- Giam gia: ${discount * 100}%');
-  print('--- Thue VAT: ${taxVAT * 100}%');
-  print('--- Tong thanh toan: ${totalAfterVAT.toStringAsFixed(0)} VND');
+  print('Tên hàng: $productName');
+  print('Số luợng: $buyAmount');
+  print('Đơn giá: $price');
+  print('--- Thành tiền: ${totalBeforeDiscount.toStringAsFixed(0)} VND');
+  print('--- Giảm giá: ${discount * 100}%');
+  print('--- Thuế VAT: ${taxVAT * 100}%');
+  print('--- Tổng thanh toán: ${totalAfterVAT.toStringAsFixed(0)} VND');
 }
 
 double checkDiscount(total) {
