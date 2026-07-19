@@ -4,7 +4,7 @@ void main() {
   List<Map<String, dynamic>> listStudent = [];
 
   String feature = '''
-  Chon cac tinh nang tuong ung duoi day: 
+  CHON CAC TINH NANG SAU: 
   1. Them sinh vien
   2. Hien thi danh sach sinh vien hien tai
   3. Tim sinh vien co DTB cao nhat
@@ -14,27 +14,54 @@ void main() {
   while (true) {
     print('\n' + feature);
     stdout.write('---> Chon so: ');
-    // String? userInput = stdin.readLineSync();
-    int chosenFeature = int.parse(stdin.readLineSync()!);
+    String? userInput = stdin.readLineSync();
+
+    if (userInput == null) {
+      print('Khong hop le.');
+      continue;
+    }
+
+    int chosenFeature;
+    try {
+      chosenFeature = int.parse(userInput);
+    } catch (e) {
+      print('Khong hop le. Nhap lai.');
+      continue;
+    }
+
     switch (chosenFeature) {
-      case == 1:
+      case 1:
         listStudent.add(addStudent(listStudent));
         break;
-      case == 2:
+      case 2:
         showStudents(listStudent);
         break;
-      case == 3:
+      case 3:
         findHighestAVG(listStudent);
         break;
-      case == 4:
+      case 4:
+        print('Da thoat ct');
         return;
+      default:
+        print('Khong hop le. Nhap so tu 1 den 4');
+        break;
+    }
+
+    stdout.write('\nTiep tuc? (y/n): ');
+    String? continueInput = stdin.readLineSync();
+    if (continueInput == null) {
+      print('Khong duoc de trong. Hay nhap lai!');
+      continue;
+    } else if (continueInput.toLowerCase() == 'y') {
+      continue;
+    } else if (continueInput.toLowerCase() == 'n') {
+      print('Da thoat ct');
+      break;
+    } else {
+      print('Khong hopw le. Hay nhap lai!');
+      continue;
     }
   }
-
-  /* ở đây sẽ xảy ra các truờng hợp input k hợp lệ để parse sang int, hoặc nhập ngoài range. 
-  nhưng tạm thời em k dùng try-catch bắt lỗi, để tập trung vào yêu cầu bài tập là chính, 
-  xem như "cầu may" nhập đúng 100%. hihi
-  */
 }
 
 Map<String, dynamic> addStudent(insertToList) {
