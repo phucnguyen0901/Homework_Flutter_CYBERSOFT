@@ -12,7 +12,7 @@ void main() {
   ''';
 
   while (true) {
-    print('\n' + feature);
+    print('*' * 10 + '\n' + feature);
     stdout.write('---> Chon so: ');
     String? userInput = stdin.readLineSync();
 
@@ -64,7 +64,7 @@ void main() {
   }
 }
 
-Map<String, dynamic> addStudent(insertToList) {
+Map<String, dynamic> addStudent(List<Map<String, dynamic>> insertToList) {
   stdout.write('Ten sinh vien: ');
   String name = stdin.readLineSync()!;
   stdout.write('Diem toan: ');
@@ -73,29 +73,34 @@ Map<String, dynamic> addStudent(insertToList) {
   double physical = double.parse(stdin.readLineSync()!);
   stdout.write('Diem hoa: ');
   double chemical = double.parse(stdin.readLineSync()!);
+  double avg = (math + physical + chemical) / 3;
 
   Map<String, dynamic> student = {
     'Ten sinh vien': name,
     'Diem toan': math,
     'Diem ly': physical,
     'Diem hoa': chemical,
-    'DTB': (math + physical + chemical) / 3,
+    'DTB': avg,
+    'rank': academicAbilityRank(avg),
   };
 
   return student;
 }
 
-void showStudents(listStudent) {
+void showStudents(List<Map<String, dynamic>> listStudent) {
+  print('\nTHONG TIN SINH VIEN');
   for (var student in listStudent) {
     print('Ten sinh vien: ${student['Ten sinh vien']}');
     print('Diem toan: ${student['Diem toan']}');
     print('Diem ly: ${student['Diem ly']}');
     print('Diem hoa: ${student['Diem hoa']}');
+    print('Diem trung binh: ${student['DTB'].toStringAsFixed(2)} ');
+    print('Xep loai hoc luc: ${student['rank']}');
     print('-' * 10);
   }
 }
 
-void findHighestAVG(listStudent) {
+void findHighestAVG(List<Map<String, dynamic>> listStudent) {
   String name = listStudent[0]['Ten sinh vien'];
   double highest = listStudent[0]['DTB'];
   for (var student in listStudent) {
@@ -108,4 +113,16 @@ void findHighestAVG(listStudent) {
   print(
     'Sinh vien ${name} co DTB cao nhat voi ${highest.toStringAsFixed(2)} diem',
   );
+}
+
+String academicAbilityRank(double avg) {
+  if (avg >= 9) {
+    return "Xuat sac";
+  } else if (avg >= 7 && avg < 9) {
+    return "Gioi";
+  } else if (avg >= 5 && avg < 7) {
+    return "Kha";
+  } else {
+    return "Kem";
+  }
 }
