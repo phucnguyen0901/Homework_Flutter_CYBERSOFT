@@ -95,7 +95,12 @@ Map<String, dynamic> addProduct(List<Map<String, dynamic>> insertToList) {
 void showProduct(List<Map<String, dynamic>> showListProduct) {
   print('\nDANH SACH SAN PHAM');
   for (var product in showListProduct) {
-    print('${product} \n' + '-' * 5);
+    print(
+      '${showListProduct.indexOf(product) + 1}. Ten san pham: ${product['Ten san pham']}',
+    );
+    print('   Gia tien: ${product['Gia tien']}');
+    print('   Ton kho: ${product['Gia tien']}');
+    print('-' * 5);
   }
 }
 
