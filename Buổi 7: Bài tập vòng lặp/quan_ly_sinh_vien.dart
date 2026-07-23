@@ -1,7 +1,7 @@
 import 'dart:io';
 
 void main() {
-  List<Map<String, dynamic>> listStudent = [];
+  List<Student> listStudent = [];
 
   String feature = '''
   CHON CAC TINH NANG SAU: 
@@ -31,7 +31,7 @@ void main() {
 
     switch (chosenFeature) {
       case 1:
-        listStudent.add(addStudent(listStudent));
+        addStudent(listStudent);
         break;
       case 2:
         showStudents(listStudent);
@@ -64,7 +64,34 @@ void main() {
   }
 }
 
-Map<String, dynamic> addStudent(List<Map<String, dynamic>> insertToList) {
+class Student {
+  String name;
+  double diemToan;
+  double diemLy;
+  double diemHoa;
+
+  Student({
+    required this.name,
+    required this.diemToan,
+    required this.diemHoa,
+    required this.diemLy,
+  });
+
+  double avg() => (diemToan + diemLy + diemHoa) / 3;
+
+  String rank(avg) {
+    if (avg < 5)
+      return 'Kem';
+    else if (avg >= 5 && avg < 7)
+      return 'Kha';
+    else if (avg >= 7 && avg < 9)
+      return 'Gioi';
+    else
+      return 'Xuat sac';
+  }
+}
+
+void addStudent(List<Student> listStudent) {
   stdout.write('Ten sinh vien: ');
   String name = stdin.readLineSync()!;
   stdout.write('Diem toan: ');
@@ -73,56 +100,42 @@ Map<String, dynamic> addStudent(List<Map<String, dynamic>> insertToList) {
   double physical = double.parse(stdin.readLineSync()!);
   stdout.write('Diem hoa: ');
   double chemical = double.parse(stdin.readLineSync()!);
-  double avg = (math + physical + chemical) / 3;
 
-  Map<String, dynamic> student = {
-    'Ten sinh vien': name,
-    'Diem toan': math,
-    'Diem ly': physical,
-    'Diem hoa': chemical,
-    'DTB': avg,
-    'rank': academicAbilityRank(avg),
-  };
+  Student student = Student(
+    name: name,
+    diemToan: math,
+    diemHoa: chemical,
+    diemLy: physical,
+  );
 
-  return student;
+  listStudent.add(student);
 }
 
-void showStudents(List<Map<String, dynamic>> listStudent) {
+void showStudents(List<Student> listStudent) {
   print('\nTHONG TIN SINH VIEN');
   for (var student in listStudent) {
-    print('Ten sinh vien: ${student['Ten sinh vien']}');
-    print('Diem toan: ${student['Diem toan']}');
-    print('Diem ly: ${student['Diem ly']}');
-    print('Diem hoa: ${student['Diem hoa']}');
-    print('Diem trung binh: ${student['DTB'].toStringAsFixed(2)} ');
-    print('Xep loai hoc luc: ${student['rank']}');
+    print('Ten sinh vien: ${student.name}');
+    print('Diem toan: ${student.diemToan}');
+    print('Diem ly: ${student.diemLy}');
+    print('Diem hoa: ${student.diemHoa}');
+    double avg = student.avg();
+    print('Diem trung binh: ${avg.toStringAsFixed(1)} ');
+    print('Xep loai hoc luc: ${student.rank(avg)}');
     print('-' * 10);
   }
 }
 
-void findHighestAVG(List<Map<String, dynamic>> listStudent) {
-  String name = listStudent[0]['Ten sinh vien'];
-  double highest = listStudent[0]['DTB'];
+void findHighestAVG(List<Student> listStudent) {
+  String name = listStudent[0].name;
+  double highest = listStudent[0].avg();
   for (var student in listStudent) {
-    if (student['DTB'] > highest) {
-      highest = student['DTB'];
-      name = student['Ten sinh vien'];
+    if (student.avg() > highest) {
+      highest = student.avg();
+      name = student.name;
     }
   }
 
   print(
     'Sinh vien ${name} co DTB cao nhat voi ${highest.toStringAsFixed(2)} diem',
   );
-}
-
-String academicAbilityRank(double avg) {
-  if (avg >= 9) {
-    return "Xuat sac";
-  } else if (avg >= 7 && avg < 9) {
-    return "Gioi";
-  } else if (avg >= 5 && avg < 7) {
-    return "Kha";
-  } else {
-    return "Kem";
-  }
 }
