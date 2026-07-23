@@ -1,7 +1,8 @@
 import 'dart:io';
 
 void main() {
-  List<Map<String, dynamic>> listProduct = [];
+  List<Product> listProduct = [];
+
   String feature = '''
   CHON SO TUONG UNG TINH NANG BEN DUOI:
   1. Them san pham
@@ -30,25 +31,16 @@ void main() {
 
     switch (chosenFeature) {
       case 1:
-        listProduct.add(addProduct(listProduct));
+        addProduct(listProduct);
         break;
       case 2:
         showProduct(listProduct);
         break;
       case 3:
-        var found = findProduct(listProduct);
-        if (found != null) print('Tim thay san pham: \n $found');
+        findProductByName(listProduct);
         break;
       case 4:
-        var productAfterSell = sellProduct(listProduct);
-        if (productAfterSell != null) {
-          for (var product in listProduct) {
-            if (product['Ten san pham'] == productAfterSell['Ten san pham']) {
-              product = productAfterSell;
-            }
-          }
-          print('Ban hang thanh cong. Da cap nhat ton kho');
-        }
+        sellProduct(listProduct);
         break;
       case 5:
         print('Da thoat ct');
@@ -75,7 +67,20 @@ void main() {
   }
 }
 
-Map<String, dynamic> addProduct(List<Map<String, dynamic>> insertToList) {
+class Product {
+  String name;
+  int price;
+  double stock;
+
+  Product({required this.name, required this.price, required this.stock});
+
+  bool checkStock(sellAmount) {
+    if (sellAmount > stock) return false;
+    return true;
+  }
+}
+
+void addProduct(List<Product> listProduct) {
   stdout.write('Ten san pham: ');
   String newProductName = stdin.readLineSync()!;
   stdout.write('Gia tien: ');
@@ -83,28 +88,26 @@ Map<String, dynamic> addProduct(List<Map<String, dynamic>> insertToList) {
   stdout.write('So luong ton kho: ');
   double stock = double.parse(stdin.readLineSync()!);
 
-  Map<String, dynamic> product = {
-    'Ten san pham': newProductName,
-    'Gia tien': price,
-    'Ton kho': stock,
-  };
+  Product product = Product(name: newProductName, price: price, stock: stock);
 
-  return product;
+  listProduct.add(product);
 }
 
-void showProduct(List<Map<String, dynamic>> showListProduct) {
+void showProduct(List<Product> listProduct) {
+  if (listProduct.isEmpty) {
+    print('Khong co san pham nao');
+    return;
+  }
   print('\nDANH SACH SAN PHAM');
-  for (var product in showListProduct) {
-    print(
-      '${showListProduct.indexOf(product) + 1}. Ten san pham: ${product['Ten san pham']}',
-    );
-    print('   Gia tien: ${product['Gia tien']}');
-    print('   Ton kho: ${product['Gia tien']}');
+  for (var product in listProduct) {
+    print('${listProduct.indexOf(product) + 1}. Ten san pham: ${product.name}');
+    print('   Gia tien: ${product.name}');
+    print('   Ton kho: ${product.stock}');
     print('-' * 5);
   }
 }
 
-Map<String, dynamic>? findProduct(List<Map<String, dynamic>> findInList) {
+Product? findProductByName(List<Product> listProduct) {
   stdout.write('Ten san pham: ');
   String? findInput = stdin.readLineSync();
 
@@ -113,34 +116,35 @@ Map<String, dynamic>? findProduct(List<Map<String, dynamic>> findInList) {
     return null;
   }
 
-  int counted = 0;
-  late var found;
-  for (var product in findInList) {
-    if (findInput == product['Ten san pham']) {
-      counted += 1;
-      found = product;
-    }
-  }
-
-  if (counted == 0) {
+  if (listProduct.any((product) => findInput != product.name)) {
     print('Khong co sna pham nao trung khop');
     return null;
   }
 
+  late var found;
+  for (var product in listProduct) {
+    if (findInput == product.name) {
+      print('Da tim thay san pham khop voi tu khoa tim kiem:');
+      print('- ${product.name}');
+      print('- Ton kho hien tai: ${product.stock}');
+      print('- Gia ban: ${product.price}');
+      found = product;
+    }
+  }
   return found;
 }
 
-Map<String, dynamic>? sellProduct(List<Map<String, dynamic>> listToCheckStock) {
+void sellProduct(List<Product> listProduct) {
   print('\nBAN SAN PHAM ');
-  var product = findProduct(listToCheckStock);
+  var product = findProductByName(listProduct);
 
   if (product == null) return null;
 
-  stdout.write('So luong can ban');
+  stdout.write('So luong can ban: ');
   String? userInput = stdin.readLineSync();
   if (userInput == null) {
     print('Khong hop le. Da huy ban hang');
-    return null;
+    return;
   }
 
   late double sellAmount;
@@ -148,15 +152,15 @@ Map<String, dynamic>? sellProduct(List<Map<String, dynamic>> listToCheckStock) {
     sellAmount = double.parse(userInput);
   } catch (e) {
     print('Khong hop le. Da huy ban hang.');
-    return null;
+    return;
   }
 
-  if (sellAmount <= product['Ton kho']) {
-    product['Ton kho'] = product['Ton kho'] - sellAmount;
-  } else {
-    print('Ban hang khong thanh cong do so luong ton kho khong du');
-    return null;
+  bool check = product.checkStock(sellAmount);
+  if (check == false) {
+    print('Ban khong thanh cong do ton kho khong du');
+    return;
   }
 
-  return product;
+  product.stock = product.stock - sellAmount;
+  print('Thanh cong ban ${sellAmount}. Da cap nhat ton kho');
 }
