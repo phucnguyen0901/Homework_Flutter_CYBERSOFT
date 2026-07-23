@@ -3,7 +3,7 @@ import 'dart:io';
 void main() {
   List<Product> listProduct = [];
 
-  String feature = '''
+  const String feature = '''
   CHON SO TUONG UNG TINH NANG BEN DUOI:
   1. Them san pham
   2. Hien thi danh sach san pham
@@ -138,7 +138,7 @@ void sellProduct(List<Product> listProduct) {
   print('\nBAN SAN PHAM ');
   var product = findProductByName(listProduct);
 
-  if (product == null) return null;
+  if (product == null) return;
 
   stdout.write('So luong can ban: ');
   String? userInput = stdin.readLineSync();
