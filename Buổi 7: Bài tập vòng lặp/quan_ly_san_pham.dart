@@ -14,35 +14,22 @@ void main() {
   while (true) {
     print('*' * 10 + '\n' + feature);
     stdout.write('--> Chon so: ');
-    String? userInput = stdin.readLineSync();
-
-    if (userInput == null) {
-      print('Khong hop le.');
-      continue;
-    }
-
-    int chosenFeature;
-    try {
-      chosenFeature = int.parse(userInput);
-    } catch (e) {
-      print('Khong hop le. Nhap lai.');
-      continue;
-    }
+    String? chosenFeature = stdin.readLineSync();
 
     switch (chosenFeature) {
-      case 1:
+      case '1':
         addProduct(listProduct);
         break;
-      case 2:
+      case '2':
         showProduct(listProduct);
         break;
-      case 3:
+      case '3':
         findProductByName(listProduct);
         break;
-      case 4:
+      case '4':
         sellProduct(listProduct);
         break;
-      case 5:
+      case '5':
         print('Da thoat ct');
         return;
       default:
@@ -50,20 +37,13 @@ void main() {
         break;
     }
 
-    stdout.write('\nTiep tuc? (y/n): ');
+    stdout.write('\nNhap "y" de tiep tuc, nhap bat ky de thoat: ');
     String? continueInput = stdin.readLineSync();
-    if (continueInput == null) {
-      print('Khong duoc de trong. Hay nhap lai!');
-      continue;
-    } else if (continueInput.toLowerCase() == 'y') {
-      continue;
-    } else if (continueInput.toLowerCase() == 'n') {
+    if (continueInput?.toLowerCase() != 'y') {
       print('Da thoat ct');
       break;
-    } else {
-      print('Khong hopw le. Hay nhap lai!');
-      continue;
     }
+    continue;
   }
 }
 

@@ -14,32 +14,19 @@ void main() {
   while (true) {
     print('*' * 10 + '\n' + feature);
     stdout.write('---> Chon so: ');
-    String? userInput = stdin.readLineSync();
-
-    if (userInput == null) {
-      print('Khong hop le.');
-      continue;
-    }
-
-    int chosenFeature;
-    try {
-      chosenFeature = int.parse(userInput);
-    } catch (e) {
-      print('Khong hop le. Nhap lai.');
-      continue;
-    }
+    String? chosenFeature = stdin.readLineSync();
 
     switch (chosenFeature) {
-      case 1:
+      case '1':
         addStudent(listStudent);
         break;
-      case 2:
+      case '2':
         showStudents(listStudent);
         break;
-      case 3:
+      case '3':
         findHighestAVG(listStudent);
         break;
-      case 4:
+      case '4':
         print('Da thoat ct');
         return;
       default:
@@ -47,20 +34,13 @@ void main() {
         break;
     }
 
-    stdout.write('\nTiep tuc? (y/n): ');
+    stdout.write('\nNhap "y" de tiep tuc, nhap bat ky de thoat: ');
     String? continueInput = stdin.readLineSync();
-    if (continueInput == null) {
-      print('Khong duoc de trong. Hay nhap lai!');
-      continue;
-    } else if (continueInput.toLowerCase() == 'y') {
-      continue;
-    } else if (continueInput.toLowerCase() == 'n') {
+    if (continueInput?.toLowerCase() != 'y') {
       print('Da thoat ct');
       break;
-    } else {
-      print('Khong hopw le. Hay nhap lai!');
-      continue;
     }
+    continue;
   }
 }
 
@@ -134,7 +114,6 @@ void findHighestAVG(List<Student> listStudent) {
       name = student.name;
     }
   }
-
   print(
     'Sinh vien ${name} co DTB cao nhat voi ${highest.toStringAsFixed(2)} diem',
   );
