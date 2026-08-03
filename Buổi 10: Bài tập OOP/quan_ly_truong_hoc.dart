@@ -16,7 +16,7 @@ void main() {
     5. Xoa giao vien
     6. Xem danh sach giao vien
   - Quan ly lop hoc:
-    7. Them giao vien va hoc sinh vao lop
+    7. Mo lop moi, them giao vien va hoc sinh vao lop
     8. Bao cao danh sach lop
   ''';
 
@@ -54,6 +54,12 @@ void main() {
         break;
       case '7':
         int id = classrooms.length + 1;
+        stdout.write('Nhap ten lop: ');
+        String name = stdin.readLineSync()!;
+        Classroom classroom = Classroom(id, name, [], null);
+        classrooms.add(classroom);
+        classroom.addTeacherIntoClass(teachers);
+        classroom.addStudentIntoClass(students);
         break;
       case '8':
         print('BAO CAO LOP');
@@ -67,13 +73,12 @@ void main() {
     }
 
     stdout.write('\nNhap "y" de tiep tuc, nhap bat ky de thoat: ');
-    String continueInput = stdin.readLineSync()!;
-    if (continueInput.toLowerCase() == 'y') {
-      continue;
-    } else {
+    String? continueInput = stdin.readLineSync();
+    if (continueInput?.toLowerCase() != 'y') {
       print('Da thoat ct');
       break;
     }
+    continue;
   }
 }
 
@@ -110,8 +115,6 @@ void addTeacher(int id, List<Teacher> teachers) {
   Teacher teacher = Teacher(id, name, age, gender, subject, salary);
   teachers.add(teacher);
 }
-
-void addClassroom(int id, List<Classroom> classrooms) {}
 
 void delete<T>(List<T> list) {
   if (list.isEmpty) {
@@ -188,17 +191,37 @@ class Teacher extends Person {
 class Classroom {
   int id;
   String name;
-  List<Student> students;
-  Teacher teacher;
+  List<Student>? students;
+  Teacher? teacher;
 
   Classroom(this.id, this.name, this.students, this.teacher);
+
+  void addTeacherIntoClass(List<Teacher> teachers) {
+    stdout.write('Nhap id giao vien: ');
+    int teacherID = int.parse(stdin.readLineSync()!);
+    if (teacherID < 1 || teacherID > teachers.length) {
+      print('Khong ton tai ID giao vien nay');
+      return;
+    }
+    this.teacher = teachers[teacherID - 1];
+    print('Them giao vien phu trach thanh cong');
+  }
+
+  void addStudentIntoClass(List<Student> students) {
+    if (students.isEmpty) {
+      print('Khong thanh cong. Danh sach hoc sinh dang trong');
+      return;
+    }
+    this.students?.addAll(students);
+    print('Them hoc sinh vao lop thanh cong');
+  }
 
   void showClassroomInfo() {
     print('ID lop hoc: $id');
     print('Ten lop: $name');
     print('Giao vien phu trach: $teacher');
     print('Danh sach hoc sinh trong lop:');
-    for (var student in students) {
+    for (var student in students!) {
       print('- Ten hoc sinh: ${student.name}');
       print('  Diem TB: ${student.score}');
     }
