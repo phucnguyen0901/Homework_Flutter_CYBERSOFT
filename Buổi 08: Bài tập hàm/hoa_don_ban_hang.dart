@@ -57,7 +57,9 @@ void insertToCart(List<Map<String, dynamic>> listCart) {
     print('Ten khong duoc de trong.');
     return;
   }
-  if (listCart.any((e) => e['Ten san pham'] == itemName)) {
+  if (listCart.any(
+    (e) => e['Ten san pham'].toLowerCase() == itemName.toLowerCase(),
+  )) {
     print('San pham da ton tai');
     return;
   }
