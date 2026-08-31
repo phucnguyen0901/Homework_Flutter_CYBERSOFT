@@ -5,6 +5,10 @@ void main() {
   List<Teacher> teachers = [];
   List<Classroom> classrooms = [];
 
+  int newStudentID = 1;
+  int newTeacherID = 1;
+  int newClassroomID = 1;
+
   String feature = '''
   CHON SO TUONG UNG TINH NANG BEN DUOI:
   - Quan ly danh sach hoc sinh:
@@ -23,12 +27,11 @@ void main() {
   while (true) {
     print('*' * 10 + '\n' + feature);
     stdout.write('--> Chon so: ');
-    String? chosenFeature = stdin.readLineSync();
+    String? chosenFeature = stdin.readLineSync()?.trim();
 
     switch (chosenFeature) {
       case '1':
-        int id = students.length + 1;
-        addStudent(id, students);
+        addStudent(newStudentID + 1, students);
         break;
       case '2':
         delete(students);
@@ -40,8 +43,7 @@ void main() {
         }
         break;
       case '4':
-        int id = teachers.length + 1;
-        addTeacher(id, teachers);
+        addTeacher(newTeacherID + 1, teachers);
         break;
       case '5':
         delete(teachers);
