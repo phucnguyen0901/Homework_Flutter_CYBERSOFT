@@ -127,12 +127,13 @@ void addTeacher(int id, List<Teacher> teachers) {
   print('Them giao vien thanh cong');
 }
 
-/*
-oh wow bất ngờ chưa! 00:30 1/9, ngồi trong nhà WC, 
-em chợt nghĩ "nếu các thứ cần xóa đều có sự hiện diện của Person thì tại sao 
-không thử cho cái này kế thừa theo luôn?", lên mạng tìm cách kế thừa và làm theo :))
+/*oh wow bất ngờ chưa! 
+00:30 1/9, ngồi trong nhà WC, viết 'listItem.id' bị báo lỗi gạch đỏ không nhận, 
+em chợt nghĩ "nếu các thứ cần xóa đều giống nhau ở điểm có sự hiện diện của Person 
+thì tại sao không thử cho cái này kế thừa theo luôn để lấy thẳng cái id?", 
+bèn lên mạng tìm cách kế thừa và làm theo :))
 => thành phẩm từ "tai nạn ngọt ngào", khỏi mất công viết lại 2 cái y chang 
-cho students và teachers... hihi
+cho students và teachers... hihi, dù chưa hiểu dc tại sao lại có thể làm thế...
 */
 void delete<T extends Person>(List<T> list) {
   if (list.isEmpty) {
