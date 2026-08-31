@@ -55,13 +55,12 @@ void main() {
         }
         break;
       case '7':
-        int id = classrooms.length + 1;
         stdout.write('Nhap ten lop: ');
-        String name = stdin.readLineSync()!;
-        Classroom classroom = Classroom(id, name, [], null);
-        classrooms.add(classroom);
+        String name = stdin.readLineSync()?.trim() ?? '';
+        Classroom classroom = Classroom(newClassroomID + 1, name, [], null);
         classroom.addTeacherIntoClass(teachers);
         classroom.addStudentIntoClass(students);
+        classrooms.add(classroom);
         break;
       case '8':
         print('BAO CAO LOP');
@@ -75,40 +74,78 @@ void main() {
     }
 
     stdout.write('\nNhap "y" de tiep tuc, nhap bat ky de thoat: ');
-    String? continueInput = stdin.readLineSync();
+    String? continueInput = stdin.readLineSync()?.trim();
     if (continueInput?.toLowerCase() != 'y') {
       print('Da thoat ct');
       break;
     }
-    continue;
   }
 }
 
 void addStudent(int id, List<Student> students) {
   print('Nhap thong tin hoc sinh');
-  stdout.write('Ten hoc sinh: ');
-  String name = stdin.readLineSync()!;
-  stdout.write('Tuoi: ');
-  int age = int.parse(stdin.readLineSync()!);
-  stdout.write('Gioi tinh: ');
-  String gender = stdin.readLineSync()!;
-  stdout.write('Lop hoc: ');
-  String grade = stdin.readLineSync()!;
-  stdout.write('Diem: ');
-  double score = double.parse(stdin.readLineSync()!);
+  stdout.write(' - Ten hoc sinh: ');
+  String name = stdin.readLineSync()?.trim() ?? '';
+  if (name.isEmpty) {
+    print('Khong duoc de trong');
+    return;
+  }
+
+  stdout.write(' - Tuoi: ');
+  int age = int.tryParse(stdin.readLineSync()?.trim() ?? '') ?? 0;
+  if (age <= 0) {
+    print('Tuoi khong hop le');
+    return;
+  }
+
+  stdout.write(' - Gioi tinh (0 = Nu , 1 = Nam): ');
+  int genderInput = int.tryParse(stdin.readLineSync()?.trim() ?? '') ?? 2;
+  // làm liều. hihi
+  if (genderInput != 0 || genderInput != 1) {
+    print('Nhap so khong phu hop');
+    return;
+  }
+  String gender = (genderInput == 0) ? 'Nu' : 'Nam';
+
+  stdout.write(' - Lop: ');
+  String grade = stdin.readLineSync()?.trim() ?? '';
+  if (grade.isEmpty) {
+    print('Khong duoc de trong');
+    return;
+  }
+
+  stdout.write(' - Diem: ');
+  double score = double.tryParse(stdin.readLineSync()?.trim() ?? '') ?? 0;
 
   Student student = Student(id, name, age, gender, grade, score);
   students.add(student);
+  print('Them hoc sinh thanh cong');
 }
 
 void addTeacher(int id, List<Teacher> teachers) {
   print('Nhap thong tin giao vien');
   stdout.write('Ten giao vien: ');
-  String name = stdin.readLineSync()!;
-  stdout.write('Tuoi: ');
-  int age = int.parse(stdin.readLineSync()!);
-  stdout.write('Gioi tinh: ');
-  String gender = stdin.readLineSync()!;
+  String name = stdin.readLineSync()?.trim() ?? '';
+  if (name.isEmpty) {
+    print('Khong duoc de trong');
+    return;
+  }
+
+  stdout.write(' - Tuoi: ');
+  int age = int.tryParse(stdin.readLineSync()?.trim() ?? '') ?? 0;
+  if (age <= 0) {
+    print('Tuoi khong hop le');
+    return;
+  }
+
+  stdout.write(' - Gioi tinh (0 = Nu , 1 = Nam): ');
+  int genderInput = int.tryParse(stdin.readLineSync()?.trim() ?? '') ?? 2;
+  // làm liều. hihi
+  if (genderInput != 0 || genderInput != 1) {
+    print('Nhap so khong phu hop');
+    return;
+  }
+  String gender = (genderInput == 0) ? 'Nu' : 'Nam';
   stdout.write('Mon giang day: ');
   String subject = stdin.readLineSync()!;
   stdout.write('Muc luong: ');
@@ -129,7 +166,7 @@ void delete<T>(List<T> list) {
     print('Khong ton tai ID nay');
     return;
   }
-  list.removeAt(id - 1); //phai -1 de xoa dung index vi khi tao id= __.length+1
+  list.removeAt(id);
   print('Xoa thanh cong!');
 }
 
@@ -219,9 +256,10 @@ class Classroom {
   }
 
   void showClassroomInfo() {
+    String teacherName = teacher?.name ?? 'Chua co giao vien phu trach';
     print('ID lop hoc: $id');
     print('Ten lop: $name');
-    print('Giao vien phu trach: $teacher');
+    print('Giao vien phu trach: $teacherName');
     print('Danh sach hoc sinh trong lop:');
     for (var student in students!) {
       print('- Ten hoc sinh: ${student.name}');
