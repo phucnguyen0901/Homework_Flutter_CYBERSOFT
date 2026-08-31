@@ -31,7 +31,7 @@ void main() {
 
     switch (chosenFeature) {
       case '1':
-        addStudent(newStudentID + 1, students);
+        addStudent(newStudentID++, students);
         break;
       case '2':
         delete(students);
@@ -43,7 +43,7 @@ void main() {
         }
         break;
       case '4':
-        addTeacher(newTeacherID + 1, teachers);
+        addTeacher(newTeacherID++, teachers);
         break;
       case '5':
         delete(teachers);
@@ -57,7 +57,7 @@ void main() {
       case '7':
         stdout.write('Nhap ten lop: ');
         String name = stdin.readLineSync()?.trim() ?? '';
-        Classroom classroom = Classroom(newClassroomID + 1, name, [], null);
+        Classroom classroom = Classroom(newClassroomID++, name, [], null);
         classroom.addTeacherIntoClass(teachers);
         classroom.addStudentIntoClass(students);
         classrooms.add(classroom);
@@ -82,92 +82,74 @@ void main() {
   }
 }
 
-void addStudent(int id, List<Student> students) {
-  print('Nhap thong tin hoc sinh');
-  stdout.write(' - Ten hoc sinh: ');
+//làm liều lần 1: quyết định thử record để tái sử dụng...
+(String name, int age, String gender) inputBaseInfo() {
+  stdout.write(' - Ten: ');
   String name = stdin.readLineSync()?.trim() ?? '';
-  if (name.isEmpty) {
-    print('Khong duoc de trong');
-    return;
-  }
+  if (name.isEmpty) print('Khong duoc de trong');
 
   stdout.write(' - Tuoi: ');
   int age = int.tryParse(stdin.readLineSync()?.trim() ?? '') ?? 0;
-  if (age <= 0) {
-    print('Tuoi khong hop le');
-    return;
-  }
+  if (age <= 0) print('Tuoi khong hop le');
 
+  // làm liều lần 2: chưa nghĩ ra cách xử lí phù hợp hơn. hihi
   stdout.write(' - Gioi tinh (0 = Nu , 1 = Nam): ');
   int genderInput = int.tryParse(stdin.readLineSync()?.trim() ?? '') ?? 2;
-  // làm liều. hihi
-  if (genderInput != 0 || genderInput != 1) {
-    print('Nhap so khong phu hop');
-    return;
-  }
+  if (genderInput != 0 && genderInput != 1) print('Nhap so khong phu hop');
   String gender = (genderInput == 0) ? 'Nu' : 'Nam';
 
-  stdout.write(' - Lop: ');
-  String grade = stdin.readLineSync()?.trim() ?? '';
-  if (grade.isEmpty) {
-    print('Khong duoc de trong');
-    return;
-  }
+  return (name, age, gender);
+}
 
-  stdout.write(' - Diem: ');
+void addStudent(int id, List<Student> students) {
+  print('Nhap thong tin hoc sinh');
+  var (name, age, gender) = inputBaseInfo();
+  stdout.write(' - Lớp: ');
+  String grade = stdin.readLineSync()?.trim() ?? '';
+  stdout.write(' - Điểm: ');
   double score = double.tryParse(stdin.readLineSync()?.trim() ?? '') ?? 0;
 
   Student student = Student(id, name, age, gender, grade, score);
   students.add(student);
-  print('Them hoc sinh thanh cong');
+  print('Them hoc sinh thanh coong');
 }
 
 void addTeacher(int id, List<Teacher> teachers) {
   print('Nhap thong tin giao vien');
-  stdout.write('Ten giao vien: ');
-  String name = stdin.readLineSync()?.trim() ?? '';
-  if (name.isEmpty) {
-    print('Khong duoc de trong');
-    return;
-  }
-
-  stdout.write(' - Tuoi: ');
-  int age = int.tryParse(stdin.readLineSync()?.trim() ?? '') ?? 0;
-  if (age <= 0) {
-    print('Tuoi khong hop le');
-    return;
-  }
-
-  stdout.write(' - Gioi tinh (0 = Nu , 1 = Nam): ');
-  int genderInput = int.tryParse(stdin.readLineSync()?.trim() ?? '') ?? 2;
-  // làm liều. hihi
-  if (genderInput != 0 || genderInput != 1) {
-    print('Nhap so khong phu hop');
-    return;
-  }
-  String gender = (genderInput == 0) ? 'Nu' : 'Nam';
-  stdout.write('Mon giang day: ');
-  String subject = stdin.readLineSync()!;
-  stdout.write('Muc luong: ');
-  int salary = int.parse(stdin.readLineSync()!);
+  var (name, age, gender) = inputBaseInfo();
+  stdout.write(' - Mon giang day: ');
+  String subject = stdin.readLineSync()?.trim() ?? '';
+  stdout.write(' - Muc luong: ');
+  int salary = int.tryParse(stdin.readLineSync()?.trim() ?? '') ?? 0;
 
   Teacher teacher = Teacher(id, name, age, gender, subject, salary);
   teachers.add(teacher);
+  print('Them giao vien thanh cong');
 }
 
-void delete<T>(List<T> list) {
+/*
+oh wow bất ngờ chưa! 00:30 1/9, ngồi trong nhà WC, 
+em chợt nghĩ "nếu các thứ cần xóa đều có sự hiện diện của Person thì tại sao 
+không thử cho cái này kế thừa theo luôn?", lên mạng tìm cách kế thừa và làm theo :))
+=> thành phẩm từ "tai nạn ngọt ngào", khỏi mất công viết lại 2 cái y chang 
+cho students và teachers... hihi
+*/
+void delete<T extends Person>(List<T> list) {
   if (list.isEmpty) {
-    print('Khong co gi de xoa het! :))) ');
+    print('Danh sach trong');
     return;
   }
-  stdout.write('Nhap id can xoa: ');
-  int id = int.parse(stdin.readLineSync()!);
-  if (id < 1 || id > list.length) {
-    print('Khong ton tai ID nay');
-    return;
+  stdout.write('Nhap ID can xoa: ');
+  int id = int.tryParse(stdin.readLineSync()?.trim() ?? '') ?? -1;
+
+  int lengthBefore = list.length;
+  list.removeWhere((listItem) => listItem.id == id);
+
+  if (list.length < lengthBefore) {
+    print('Xoa thanh cong!');
+  } else {
+    print('Khong tim thay ID nay');
   }
-  list.removeAt(id);
-  print('Xoa thanh cong!');
 }
 
 class Person {
@@ -198,7 +180,7 @@ class Student extends Person {
     print('  Tuoi: $age');
     print('  Gioi tinh: $gender');
     print('  Lop: $grade');
-    print('  Diem TB: $score');
+    print('  Diem: $score');
     print('-' * 10);
   }
 }
@@ -230,29 +212,37 @@ class Teacher extends Person {
 class Classroom {
   int id;
   String name;
-  List<Student>? students;
+  List<Student> students;
   Teacher? teacher;
 
   Classroom(this.id, this.name, this.students, this.teacher);
 
   void addTeacherIntoClass(List<Teacher> teachers) {
-    stdout.write('Nhap id giao vien: ');
-    int teacherID = int.parse(stdin.readLineSync()!);
-    if (teacherID < 1 || teacherID > teachers.length) {
-      print('Khong ton tai ID giao vien nay');
-      return;
+    stdout.write('Nhap ID giao vien: ');
+    int teacherID = int.tryParse(stdin.readLineSync()?.trim() ?? '') ?? 0;
+
+    for (var findTeacher in teachers) {
+      if (findTeacher.id == teacherID) {
+        this.teacher = findTeacher;
+        print('Them giao vien phu trach thanh cong');
+        return;
+      }
     }
-    this.teacher = teachers[teacherID - 1];
-    print('Them giao vien phu trach thanh cong');
+    print('Khong tim thay ID giao vien nay');
   }
 
   void addStudentIntoClass(List<Student> students) {
-    if (students.isEmpty) {
-      print('Khong thanh cong. Danh sach hoc sinh dang trong');
-      return;
+    stdout.write('Nhap ID hoc dinh can them: ');
+    int studentID = int.tryParse(stdin.readLineSync()?.trim() ?? '') ?? 0;
+
+    for (var student in students) {
+      if (student.id == studentID) {
+        this.students.add(student);
+        print('Them hoc sinh vao lop thanh cong');
+        return;
+      }
     }
-    this.students?.addAll(students);
-    print('Them hoc sinh vao lop thanh cong');
+    print('Khong tim thay ID hoc sinh nay');
   }
 
   void showClassroomInfo() {
@@ -261,7 +251,7 @@ class Classroom {
     print('Ten lop: $name');
     print('Giao vien phu trach: $teacherName');
     print('Danh sach hoc sinh trong lop:');
-    for (var student in students!) {
+    for (var student in students) {
       print('- Ten hoc sinh: ${student.name}');
       print('  Diem TB: ${student.score}');
     }
