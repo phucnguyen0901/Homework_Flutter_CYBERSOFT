@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="homework_grocery_app"
+        android:label="hoc_flutter_1"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'homepage.dart';
+import 'grocery_homepage.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -17,6 +17,10 @@ class WelcomePage extends StatelessWidget {
           _startButton(context),
           const SizedBox(height: 50),
         ],
+      ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Align(alignment: Alignment.topLeft, child: BackButton()),
       ),
     );
   }
@@ -56,7 +60,7 @@ class WelcomePage extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const HomePage()),
+            MaterialPageRoute(builder: (context) => const GroceryHomepage()),
           );
         },
         style: ElevatedButton.styleFrom(

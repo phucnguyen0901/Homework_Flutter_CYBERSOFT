@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:homework_grocery_app/category/category.dart';
+import 'package:hoc_flutter_1/grocery_app/category/category.dart';
 import 'category_items_page.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class GroceryHomepage extends StatelessWidget {
+  const GroceryHomepage({super.key});
 
   @override
   Widget build(BuildContext context) {

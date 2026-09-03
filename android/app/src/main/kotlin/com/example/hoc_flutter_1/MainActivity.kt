@@ -1,4 +1,4 @@
-package com.example.homework_grocery_app
+package com.example.hoc_flutter_1
 
 import io.flutter.embedding.android.FlutterActivity
 
