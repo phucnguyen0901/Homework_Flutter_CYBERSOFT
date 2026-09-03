@@ -33,7 +33,7 @@ class ShopHomepage extends StatelessWidget {
 
   Padding _greetUser(String userName) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 50, 20, 0),
+      padding: const EdgeInsets.fromLTRB(20, 50, 12, 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -88,7 +88,7 @@ class ShopHomepage extends StatelessWidget {
               padding: const EdgeInsets.all(4),
               child: IconButton(
                 onPressed: () {},
-                icon: Icon(Icons.settings, color: Colors.white),
+                icon: Icon(Icons.tune, color: Colors.white),
               ),
             ),
           ),

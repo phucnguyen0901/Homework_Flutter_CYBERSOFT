@@ -16,7 +16,7 @@ class ChooseHomework extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             _homework(groceryImage, 'Grocery app', context, GroceryHomepage()),
-            const Divider(),
+            const Divider(color: Color.fromARGB(255, 229, 229, 229)),
             _homework(shopImage, 'Shop app', context, ShopHomepage()),
           ],
         ),
@@ -40,7 +40,7 @@ class ChooseHomework extends StatelessWidget {
               homeworkName,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
             TextButton(
               onPressed: () {
                 Navigator.push(
@@ -48,7 +48,7 @@ class ChooseHomework extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => page),
                 );
               },
-              child: Text('Xem'),
+              child: Text('Xem   >'),
             ),
           ],
         ),
