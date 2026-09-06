@@ -21,19 +21,16 @@ class ShopHomepage extends StatelessWidget {
             _bestSellerTag(context),
             _bestSellerView(),
             const SizedBox(height: 20),
+            Padding(padding: const EdgeInsets.all(8), child: BackButton()),
           ],
         ),
-      ),
-      floatingActionButton: Padding(
-        padding: EdgeInsets.all(16),
-        child: Align(alignment: Alignment.topLeft, child: BackButton()),
       ),
     );
   }
 
   Padding _greetUser(String userName) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 50, 12, 0),
+      padding: const EdgeInsets.fromLTRB(20, 52, 12, 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -68,9 +65,9 @@ class ShopHomepage extends StatelessWidget {
                 prefixIconColor: Colors.grey,
                 hintText: 'Searching item...',
                 hintStyle: TextStyle(color: Colors.grey, fontSize: 15),
-                contentPadding: EdgeInsets.all(15),
+                contentPadding: EdgeInsets.all(16),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(16),
                   borderSide: BorderSide.none,
                 ),
                 filled: true,
@@ -81,15 +78,13 @@ class ShopHomepage extends StatelessWidget {
           const SizedBox(width: 15),
           Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(16),
               color: Colors.orange,
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(4),
-              child: IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.tune, color: Colors.white),
-              ),
+            padding: const EdgeInsets.all(4),
+            child: IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.tune, color: Colors.white),
             ),
           ),
         ],
@@ -121,19 +116,21 @@ class ShopHomepage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                   color: const Color.fromARGB(255, 231, 231, 231),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(6),
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      button['iconButton'] as IconData,
-                      color: Color.fromARGB(255, 13, 155, 180),
-                    ),
+                child: IconButton(
+                  onPressed: () {},
+                  padding: const EdgeInsets.all(14),
+                  icon: Icon(
+                    button['iconButton'] as IconData,
+                    color: Color.fromARGB(255, 13, 155, 180),
                   ),
                 ),
               ),
               const SizedBox(height: 5),
-              Text(button['name']),
+              Text(
+                button['name'],
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
             ],
           ),
         );
@@ -199,9 +196,11 @@ class ShopHomepage extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 8, top: 8),
+                      padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
                       child: Text(
                         item['name'],
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -217,8 +216,7 @@ class ShopHomepage extends StatelessWidget {
                               fontSize: 20,
                             ),
                           ),
-                          // SizedBox(width: 10),
-                          Text('  5.0'),
+                          Text('5.0'),
                         ],
                       ),
                     ),
@@ -242,7 +240,7 @@ class AdvertiseCard extends StatefulWidget {
 
 class _AdvertiseCardState extends State<AdvertiseCard> {
   final PageController _pageController = PageController();
-  int _currentIndex = 0;
+  int _currentIndex = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -254,9 +252,9 @@ class _AdvertiseCardState extends State<AdvertiseCard> {
           child: PageView.builder(
             controller: _pageController,
             itemCount: 4,
-            onPageChanged: (index) {
+            onPageChanged: (newIndex) {
               setState(() {
-                _currentIndex = index;
+                _currentIndex = newIndex;
               });
             },
             itemBuilder: (context, index) {

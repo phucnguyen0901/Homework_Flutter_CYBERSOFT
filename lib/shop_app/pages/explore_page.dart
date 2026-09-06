@@ -45,7 +45,7 @@ class ExplorePage extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             color: Colors.orange,
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(16),
           ),
           child: BackButton(color: Colors.white),
         ),
@@ -64,11 +64,11 @@ class ExplorePage extends StatelessWidget {
           var item = bestSellerItems[index];
           return Padding(
             padding: const EdgeInsets.only(bottom: 16),
-            child: (Container(
+            child: Container(
               height: 220,
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(16),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,6 +88,8 @@ class ExplorePage extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                     child: Text(
                       item['name'],
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 17,
@@ -96,7 +98,7 @@ class ExplorePage extends StatelessWidget {
                   ),
                 ],
               ),
-            )),
+            ),
           );
         },
       ),
