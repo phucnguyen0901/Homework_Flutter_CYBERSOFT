@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:hoc_flutter_1/shop_app/other/icon_buttons.dart';
 import 'package:hoc_flutter_1/shop_app/other/best_seller_item.dart';
@@ -240,7 +241,32 @@ class AdvertiseCard extends StatefulWidget {
 
 class _AdvertiseCardState extends State<AdvertiseCard> {
   final PageController _pageController = PageController();
-  int _currentIndex = 1;
+
+  int _currentIndex = 0;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
+      if (_currentIndex < 3) {
+        _currentIndex++;
+      } else {
+        _currentIndex = 0;
+      }
+      _pageController.animateToPage(
+        _currentIndex,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
